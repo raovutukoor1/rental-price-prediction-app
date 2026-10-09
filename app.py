@@ -18,6 +18,11 @@ st.write("This tool predicts the price of an Airbnb listing based on the propert
 st.subheader("Enter the listing details:")
 
 # Collect user input
+property_address = st.text_input(
+    "Property Address",
+    placeholder="Enter the listing address",
+    help="The current model does not use address data for pricing because it was not trained with location features.",
+)
 room_type = st.selectbox("Room Type", ["Entire home/apt", "Private room", "Shared room"])
 accommodates = st.number_input("Accommodates (Number of guests)", min_value=1, value=2)
 bathrooms = st.number_input("Bathrooms", min_value=1, step=1, value=2)
@@ -44,4 +49,8 @@ input_data = pd.DataFrame([{
 # Predict button
 if st.button("Predict"):
     prediction = model.predict(input_data)
+    if property_address.strip():
+        st.write(f"Selected property address: {property_address.strip()}")
+    else:
+        st.info("No property address was entered. The current model predicts from the property attributes below.")
     st.write(f"The predicted price of the rental property is ${np.exp(prediction)[0]:.2f}.")
