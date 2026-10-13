@@ -48,6 +48,21 @@ input_data = pd.DataFrame([{
 
 # Predict button
 if st.button("Predict"):
+    st.subheader("Selected property details")
+    property_summary = pd.DataFrame([{
+        "Property Address": property_address.strip() or "Not provided",
+        "Room Type": room_type,
+        "Guests": accommodates,
+        "Bathrooms": bathrooms,
+        "Cancellation Policy": cancellation_policy,
+        "Cleaning Fee": cleaning_fee,
+        "Instantly Bookable": instant_bookable,
+        "Review Score": review_scores_rating,
+        "Bedrooms": bedrooms,
+        "Beds": beds,
+    }])
+    st.dataframe(property_summary, hide_index=True, use_container_width=True)
+
     prediction = model.predict(input_data)
     if property_address.strip():
         st.write(f"Selected property address: {property_address.strip()}")
